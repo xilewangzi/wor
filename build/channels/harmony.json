@@ -1,0 +1,12 @@
+{
+  "platform": "harmony",
+  "channel": "huawei",
+  "appId": "__UNI__DBE7390_HARMONY",
+  "packageName": "com.wor.exhaust.harmony",
+  "payment": {
+    "provider": "huawei",
+    "appKey": "YOUR_HUAWEI_APP_KEY",
+    "appSecret": "YOUR_HUAWEI_APP_SECRET"
+  }
+}
+

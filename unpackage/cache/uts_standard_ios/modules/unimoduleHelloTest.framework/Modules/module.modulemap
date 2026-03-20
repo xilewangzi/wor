@@ -1,0 +1,11 @@
+framework module unimoduleHelloTest {
+  umbrella header "unimoduleHelloTest.h"
+  export *
+
+  module * { export * }
+}
+
+module unimoduleHelloTest.Swift {
+  header "unimoduleHelloTest-Swift.h"
+  requires objc
+}

@@ -1,0 +1,26 @@
+{
+  "version": "1",
+  "env": {
+    "compilerVersion": "4.85"
+  },
+  "files": {
+    "utssdk/app-ios/index.uts": {
+      "md5": "cf979a7f4ef37421b11717b41477c4f3"
+    },
+    "utssdk/interface.uts": {
+      "md5": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "utssdk/unierror.uts": {
+      "md5": "b6db7d6baa8bf0a5674cc9ce27fc597d"
+    },
+    "package.json": {
+      "md5": "77352f26150dcd50408e8c4ac668da30"
+    },
+    "utssdk/app-ios/SpeedMonitor.swift": {
+      "md5": "53fea5e63cad22e6b2b7111dbd4baec3"
+    },
+    "utssdk/app-ios/config.json": {
+      "md5": "46cd6bab39643b1e5c175f64e3283bf3"
+    }
+  }
+}

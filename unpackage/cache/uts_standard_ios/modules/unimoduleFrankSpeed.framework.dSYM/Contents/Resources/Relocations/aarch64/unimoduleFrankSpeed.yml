@@ -1,0 +1,54 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/var/folders/_m/z9z6llwd0rn9_wj7q6bh7gvc0000gn/T/ios_build_device/template/xcode_ust_template/uni_modules/frank-speed/utssdk/app-ios/build/Debug-iphoneos/unimoduleFrankSpeed.framework/unimoduleFrankSpeed'
+relocations:
+  - { offset: 0xEAE48, size: 0x8, addend: 0x0, symName: _unimoduleFrankSpeedVersionString, symObjAddr: 0x0, symBinAddr: 0x7590, symSize: 0x0 }
+  - { offset: 0xEAE7D, size: 0x8, addend: 0x0, symName: _unimoduleFrankSpeedVersionNumber, symObjAddr: 0x30, symBinAddr: 0x75C0, symSize: 0x0 }
+  - { offset: 0xEAEBA, size: 0x8, addend: 0x0, symName: '+[DCloudUTSConfig load]', symObjAddr: 0x0, symBinAddr: 0x47A0, symSize: 0xA8 }
+  - { offset: 0xEAEC8, size: 0x8, addend: 0x0, symName: '+[DCloudUTSConfig load]', symObjAddr: 0x0, symBinAddr: 0x47A0, symSize: 0xA8 }
+  - { offset: 0xEAEEE, size: 0x8, addend: 0x0, symName: _load.onceToken, symObjAddr: 0x1E90, symBinAddr: 0xC750, symSize: 0x0 }
+  - { offset: 0xEAF7E, size: 0x8, addend: 0x0, symName: '___23+[DCloudUTSConfig load]_block_invoke', symObjAddr: 0xA8, symBinAddr: 0x4848, symSize: 0x4F8 }
+  - { offset: 0xEB2AC, size: 0x8, addend: 0x0, symName: '_$ss27_finalizeUninitializedArrayySayxGABnlF', symObjAddr: 0x478, symBinAddr: 0x51B8, symSize: 0x40 }
+  - { offset: 0xEB2D6, size: 0x8, addend: 0x0, symName: '_$sSpsRi_zrlE17withMemoryRebound2to8capacity_qd_1_qd__m_Siqd_1_Spyqd__Gqd_0_YKXEtqd_0_YKs5ErrorRd_0_Ri_d__Ri_d_1_r1_lF', symObjAddr: 0x604, symBinAddr: 0x5344, symSize: 0x47C }
+  - { offset: 0xEB341, size: 0x8, addend: 0x0, symName: '_$ss24withUnsafeMutablePointer2to_q0_xz_q0_SpyxGq_YKXEtq_YKs5ErrorR_Ri_zRi_0_r1_lF', symObjAddr: 0xA80, symBinAddr: 0x57C0, symSize: 0xC4 }
+  - { offset: 0xEB487, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed16MemoryInfoNativeCMa', symObjAddr: 0x90, symBinAddr: 0x4DD0, symSize: 0x24 }
+  - { offset: 0xEB49B, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed16MemoryInfoNativeC07getFreeD033_03BB209460DD7A6CF4B820CD3D0800B8LLSiyFZs5Int32VSpySo13vm_statisticsVGXEfU_TA', symObjAddr: 0x584, symBinAddr: 0x52C4, symSize: 0x28 }
+  - { offset: 0xEB4AF, size: 0x8, addend: 0x0, symName: '_$sSo13vm_statisticsVMa', symObjAddr: 0xB44, symBinAddr: 0x5884, symSize: 0x94 }
+  - { offset: 0xEB4C3, size: 0x8, addend: 0x0, symName: '_$sSo13vm_statisticsVwCP', symObjAddr: 0xCC8, symBinAddr: 0x5A08, symSize: 0x3C }
+  - { offset: 0xEB4D7, size: 0x8, addend: 0x0, symName: ___swift_noop_void_return, symObjAddr: 0xD04, symBinAddr: 0x5A44, symSize: 0x4 }
+  - { offset: 0xEB4EB, size: 0x8, addend: 0x0, symName: ___swift_memcpy60_4, symObjAddr: 0xD08, symBinAddr: 0x5A48, symSize: 0x2C }
+  - { offset: 0xEB4FF, size: 0x8, addend: 0x0, symName: '_$sSo13vm_statisticsVwet', symObjAddr: 0xD34, symBinAddr: 0x5A74, symSize: 0xE0 }
+  - { offset: 0xEB513, size: 0x8, addend: 0x0, symName: '_$sSo13vm_statisticsVwst', symObjAddr: 0xE14, symBinAddr: 0x5B54, symSize: 0x1C8 }
+  - { offset: 0xEB527, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed16MemoryInfoNativeC07getFreeD033_03BB209460DD7A6CF4B820CD3D0800B8LLSiyFZs5Int32VSpySo13vm_statisticsVGXEfU_AGSpyAGGXEfU_TA', symObjAddr: 0xFDC, symBinAddr: 0x5D1C, symSize: 0x28 }
+  - { offset: 0xEB53B, size: 0x8, addend: 0x0, symName: '_$sSa12_endMutationyyF', symObjAddr: 0x1004, symBinAddr: 0x5D44, symSize: 0xC }
+  - { offset: 0xEB553, size: 0x8, addend: 0x0, symName: '_$sSpsRi_zrlE17withMemoryRebound2to8capacity_qd_1_qd__m_Siqd_1_Spyqd__Gqd_0_YKXEtqd_0_YKs5ErrorRd_0_Ri_d__Ri_d_1_r1_lF6$deferL_yysAERd_0_Ri_zRi_d__Ri_d_1_r_1_lF', symObjAddr: 0x1010, symBinAddr: 0x5D50, symSize: 0x1C }
+  - { offset: 0xEB5AD, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed16MemoryInfoNativeC06getMemE5SwiftSaySiGyFZ', symObjAddr: 0x0, symBinAddr: 0x4D40, symSize: 0x90 }
+  - { offset: 0xEB614, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed16MemoryInfoNativeC07getFreeD033_03BB209460DD7A6CF4B820CD3D0800B8LLSiyFZ', symObjAddr: 0xB4, symBinAddr: 0x4DF4, symSize: 0x2B4 }
+  - { offset: 0xEB6ED, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed16MemoryInfoNativeC07getFreeD033_03BB209460DD7A6CF4B820CD3D0800B8LLSiyFZs5Int32VSpySo13vm_statisticsVGXEfU_', symObjAddr: 0x4B8, symBinAddr: 0x51F8, symSize: 0xCC }
+  - { offset: 0xEB72D, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed16MemoryInfoNativeC07getFreeD033_03BB209460DD7A6CF4B820CD3D0800B8LLSiyFZs5Int32VSpySo13vm_statisticsVGXEfU_AGSpyAGGXEfU_', symObjAddr: 0x5AC, symBinAddr: 0x52EC, symSize: 0x58 }
+  - { offset: 0xEB76E, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed16MemoryInfoNativeC08getTotalD033_03BB209460DD7A6CF4B820CD3D0800B8LLSiyFZ', symObjAddr: 0x368, symBinAddr: 0x50A8, symSize: 0x110 }
+  - { offset: 0xEB7CF, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed16MemoryInfoNativeCfd', symObjAddr: 0xBD8, symBinAddr: 0x5918, symSize: 0x24 }
+  - { offset: 0xEB7F9, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed16MemoryInfoNativeCfD', symObjAddr: 0xBFC, symBinAddr: 0x593C, symSize: 0x3C }
+  - { offset: 0xEB81D, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed16MemoryInfoNativeCACycfC', symObjAddr: 0xC38, symBinAddr: 0x5978, symSize: 0x38 }
+  - { offset: 0xEB831, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed16MemoryInfoNativeCACycfc', symObjAddr: 0xC70, symBinAddr: 0x59B0, symSize: 0x24 }
+  - { offset: 0xEB9AD, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed5helloSSycvpfiSSycfU_', symObjAddr: 0x0, symBinAddr: 0x5D6C, symSize: 0x188 }
+  - { offset: 0xEB9D1, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed5helloSSycvp', symObjAddr: 0x6C0, symBinAddr: 0xC4B8, symSize: 0x0 }
+  - { offset: 0xEB9DF, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed5helloSSycvpfiSSycfU_', symObjAddr: 0x0, symBinAddr: 0x5D6C, symSize: 0x188 }
+  - { offset: 0xEBA18, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed5helloSSycvpfiSSycfU_So8NSNumberCSi_ADtXEfU_', symObjAddr: 0x188, symBinAddr: 0x5EF4, symSize: 0x58 }
+  - { offset: 0xEBA51, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed5helloSSycvau', symObjAddr: 0x220, symBinAddr: 0x5F4C, symSize: 0xC }
+  - { offset: 0xEBA6F, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed5helloSSycvg', symObjAddr: 0x22C, symBinAddr: 0x5F58, symSize: 0x60 }
+  - { offset: 0xEBA8D, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed5helloSSycvs', symObjAddr: 0x28C, symBinAddr: 0x5FB8, symSize: 0x8C }
+  - { offset: 0xEBABB, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed5helloSSycvM', symObjAddr: 0x318, symBinAddr: 0x6044, symSize: 0x44 }
+  - { offset: 0xEBAD9, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed5helloSSycvM.resume.0', symObjAddr: 0x35C, symBinAddr: 0x6088, symSize: 0x3C }
+  - { offset: 0xEBAF7, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed9helloByJsSSyF', symObjAddr: 0x398, symBinAddr: 0x60C4, symSize: 0x88 }
+  - { offset: 0xEBBA4, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed013UTSSDKModulesbC10IndexSwiftCMa', symObjAddr: 0x538, symBinAddr: 0x6264, symSize: 0x24 }
+  - { offset: 0xEBBB8, size: 0x8, addend: 0x0, symName: '_$sSo8NSNumberCMa', symObjAddr: 0x5C4, symBinAddr: 0x62F0, symSize: 0x60 }
+  - { offset: 0xEBBCC, size: 0x8, addend: 0x0, symName: ___swift_instantiateConcreteTypeFromMangledNameV2, symObjAddr: 0x624, symBinAddr: 0x6350, symSize: 0x68 }
+  - { offset: 0xEBBE0, size: 0x8, addend: 0x0, symName: '_$sSaySo8NSNumberCGWOh', symObjAddr: 0x68C, symBinAddr: 0x63B8, symSize: 0x28 }
+  - { offset: 0xEBC3B, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed013UTSSDKModulesbC10IndexSwiftC11s_helloByJsSSyFZ', symObjAddr: 0x420, symBinAddr: 0x614C, symSize: 0x24 }
+  - { offset: 0xEBC95, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed013UTSSDKModulesbC10IndexSwiftC11s_helloByJsSSyFZTo', symObjAddr: 0x444, symBinAddr: 0x6170, symSize: 0x54 }
+  - { offset: 0xEBCA9, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed013UTSSDKModulesbC10IndexSwiftCACycfC', symObjAddr: 0x498, symBinAddr: 0x61C4, symSize: 0x24 }
+  - { offset: 0xEBCBD, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed013UTSSDKModulesbC10IndexSwiftCACycfc', symObjAddr: 0x4BC, symBinAddr: 0x61E8, symSize: 0x7C }
+  - { offset: 0xEBCE1, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed013UTSSDKModulesbC10IndexSwiftCACycfcTo', symObjAddr: 0x55C, symBinAddr: 0x6288, symSize: 0x20 }
+  - { offset: 0xEBCFB, size: 0x8, addend: 0x0, symName: '_$s19unimoduleFrankSpeed013UTSSDKModulesbC10IndexSwiftCfD', symObjAddr: 0x57C, symBinAddr: 0x62A8, symSize: 0x48 }
+...

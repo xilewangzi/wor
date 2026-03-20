@@ -1,0 +1,1 @@
+{"version":3,"sources":["uni_modules/frank-speed/utssdk/app-ios/index.uts"],"sourcesContent":["export const hello = ():void=>{\n\tconsole.log(\"hello\")\n}"],"names":[],"mappings":";AAAO,WAAM,QAAQ;MAAG,IAAI;AAC3B,QAAQ,GAAG,CAAC;;2BADW,IAAI;;;;;;wCAAJ,IAAI"}

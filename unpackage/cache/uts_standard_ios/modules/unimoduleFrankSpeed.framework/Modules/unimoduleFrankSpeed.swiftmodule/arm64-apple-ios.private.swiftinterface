@@ -1,0 +1,22 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2.1 effective-5.10 (swiftlang-6.2.1.4.8 clang-1700.4.4.1)
+// swift-module-flags: -target arm64-apple-ios15 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name unimoduleFrankSpeed
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.1
+import CoreLocation
+import DCloudUTSFoundation
+import Foundation
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_exported import unimoduleFrankSpeed
+@_hasMissingDesignatedInitializers public class MemoryInfoNative {
+  @objc deinit
+}
+public var hello: () -> Swift.String
+public func helloByJs() -> Swift.String
+@_inheritsConvenienceInitializers @objc(UTSSDKModulesFrankSpeedIndexSwift) @objcMembers public class UTSSDKModulesFrankSpeedIndexSwift : ObjectiveC.NSObject {
+  @objc public static func s_helloByJs() -> Swift.String
+  @objc override dynamic public init()
+  @objc deinit
+}

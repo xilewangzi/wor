@@ -1,0 +1,13 @@
+{
+  "platform": "ios",
+  "appId": "__UNI__DBE7390",
+  "bundleId": "com.wor.exhaust",
+  "payment": {
+    "provider": "apple",
+    "products": [
+      { "id": "com.wor.exhaust.monthly", "type": "subscription" },
+      { "id": "com.wor.exhaust.yearly", "type": "subscription" }
+    ]
+  }
+}
+

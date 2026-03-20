@@ -1,0 +1,421 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "unimoduleFrankSpeed",
+    "printedName": "unimoduleFrankSpeed",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "CoreLocation",
+        "printedName": "CoreLocation",
+        "declKind": "Import",
+        "moduleName": "unimoduleFrankSpeed"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "unimoduleFrankSpeed",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "DCloudUTSFoundation",
+        "printedName": "DCloudUTSFoundation",
+        "declKind": "Import",
+        "moduleName": "unimoduleFrankSpeed"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "MemoryInfoNative",
+        "printedName": "MemoryInfoNative",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "getMemInfoSwift",
+            "printedName": "getMemInfoSwift()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Swift.Int]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:19unimoduleFrankSpeed16MemoryInfoNativeC06getMemE5SwiftSaySiGyFZ",
+            "mangledName": "$s19unimoduleFrankSpeed16MemoryInfoNativeC06getMemE5SwiftSaySiGyFZ",
+            "moduleName": "unimoduleFrankSpeed",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "MemoryInfoNative",
+                "printedName": "unimoduleFrankSpeed.MemoryInfoNative",
+                "usr": "s:19unimoduleFrankSpeed16MemoryInfoNativeC"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:19unimoduleFrankSpeed16MemoryInfoNativeCACycfc",
+            "mangledName": "$s19unimoduleFrankSpeed16MemoryInfoNativeCACycfc",
+            "moduleName": "unimoduleFrankSpeed",
+            "implicit": true,
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:19unimoduleFrankSpeed16MemoryInfoNativeC",
+        "mangledName": "$s19unimoduleFrankSpeed16MemoryInfoNativeC",
+        "moduleName": "unimoduleFrankSpeed",
+        "isOpen": true,
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "hasMissingDesignatedInitializers": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "DCloudUTSFoundation",
+        "printedName": "DCloudUTSFoundation",
+        "declKind": "Import",
+        "moduleName": "unimoduleFrankSpeed"
+      },
+      {
+        "kind": "Var",
+        "name": "hello",
+        "printedName": "hello",
+        "children": [
+          {
+            "kind": "TypeFunc",
+            "name": "Function",
+            "printedName": "() -> Swift.String",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ]
+          }
+        ],
+        "declKind": "Var",
+        "usr": "s:19unimoduleFrankSpeed5helloSSycvp",
+        "mangledName": "$s19unimoduleFrankSpeed5helloSSycvp",
+        "moduleName": "unimoduleFrankSpeed",
+        "declAttributes": [
+          "HasInitialValue",
+          "HasStorage",
+          "AccessControl"
+        ],
+        "hasStorage": true,
+        "accessors": [
+          {
+            "kind": "Accessor",
+            "name": "Get",
+            "printedName": "Get()",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "() -> Swift.String",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Accessor",
+            "usr": "s:19unimoduleFrankSpeed5helloSSycvg",
+            "mangledName": "$s19unimoduleFrankSpeed5helloSSycvg",
+            "moduleName": "unimoduleFrankSpeed",
+            "implicit": true,
+            "accessorKind": "get"
+          },
+          {
+            "kind": "Accessor",
+            "name": "Set",
+            "printedName": "Set()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "() -> Swift.String",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Accessor",
+            "usr": "s:19unimoduleFrankSpeed5helloSSycvs",
+            "mangledName": "$s19unimoduleFrankSpeed5helloSSycvs",
+            "moduleName": "unimoduleFrankSpeed",
+            "implicit": true,
+            "accessorKind": "set"
+          },
+          {
+            "kind": "Accessor",
+            "name": "Modify",
+            "printedName": "Modify()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Accessor",
+            "usr": "s:19unimoduleFrankSpeed5helloSSycvM",
+            "mangledName": "$s19unimoduleFrankSpeed5helloSSycvM",
+            "moduleName": "unimoduleFrankSpeed",
+            "implicit": true,
+            "accessorKind": "_modify"
+          }
+        ]
+      },
+      {
+        "kind": "Function",
+        "name": "helloByJs",
+        "printedName": "helloByJs()",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "String",
+            "printedName": "Swift.String",
+            "usr": "s:SS"
+          }
+        ],
+        "declKind": "Func",
+        "usr": "s:19unimoduleFrankSpeed9helloByJsSSyF",
+        "mangledName": "$s19unimoduleFrankSpeed9helloByJsSSyF",
+        "moduleName": "unimoduleFrankSpeed",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "UTSSDKModulesFrankSpeedIndexSwift",
+        "printedName": "UTSSDKModulesFrankSpeedIndexSwift",
+        "children": [
+          {
+            "kind": "Function",
+            "name": "s_helloByJs",
+            "printedName": "s_helloByJs()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@unimoduleFrankSpeed@objc(cs)UTSSDKModulesFrankSpeedIndexSwift(cm)s_helloByJs",
+            "mangledName": "$s19unimoduleFrankSpeed013UTSSDKModulesbC10IndexSwiftC11s_helloByJsSSyFZ",
+            "moduleName": "unimoduleFrankSpeed",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "ObjC"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "UTSSDKModulesFrankSpeedIndexSwift",
+                "printedName": "unimoduleFrankSpeed.UTSSDKModulesFrankSpeedIndexSwift",
+                "usr": "c:@M@unimoduleFrankSpeed@objc(cs)UTSSDKModulesFrankSpeedIndexSwift"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@unimoduleFrankSpeed@objc(cs)UTSSDKModulesFrankSpeedIndexSwift(im)init",
+            "mangledName": "$s19unimoduleFrankSpeed013UTSSDKModulesbC10IndexSwiftCACycfc",
+            "moduleName": "unimoduleFrankSpeed",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@unimoduleFrankSpeed@objc(cs)UTSSDKModulesFrankSpeedIndexSwift",
+        "mangledName": "$s19unimoduleFrankSpeed013UTSSDKModulesbC10IndexSwiftC",
+        "moduleName": "unimoduleFrankSpeed",
+        "isOpen": true,
+        "objc_name": "UTSSDKModulesFrankSpeedIndexSwift",
+        "declAttributes": [
+          "AccessControl",
+          "ObjCMembers",
+          "ObjC"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "inheritsConvenienceInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/var\/folders\/_m\/z9z6llwd0rn9_wj7q6bh7gvc0000gn\/T\/ios_build_device\/template\/xcode_ust_template\/uni_modules\/frank-speed\/utssdk\/app-ios\/src\/index.swift",
+      "kind": "StringLiteral",
+      "offset": 228,
+      "length": 57,
+      "value": "\" at uni_modules\/frank-speed\/utssdk\/app-ios\/index.uts:15\""
+    },
+    {
+      "filePath": "\/var\/folders\/_m\/z9z6llwd0rn9_wj7q6bh7gvc0000gn\/T\/ios_build_device\/template\/xcode_ust_template\/uni_modules\/frank-speed\/utssdk\/app-ios\/src\/index.swift",
+      "kind": "StringLiteral",
+      "offset": 294,
+      "length": 15,
+      "value": "\"hello my uts1\""
+    }
+  ]
+}

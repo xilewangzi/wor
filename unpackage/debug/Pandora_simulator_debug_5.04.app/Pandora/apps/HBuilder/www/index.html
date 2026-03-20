@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="HandheldFriendly" content="true"/>
+	<meta name="MobileOptimized" content="320"/>
+    <title>Hello HBuilder</title>
+    <script type="text/javascript">
+//取消浏览器的所有事件，使得active的样式在手机上正常生效
+document.addEventListener('touchstart',function(){
+    return false;
+},true);
+// 禁用上下文菜单
+document.oncontextmenu=function(){
+	return false;
+};
+// Add Html5Plus's plusready event listener.
+document.addEventListener("plusready", function () {
+	// Android处理返回键
+	plus.ui.getSelfWindow().addEventListener( "back", function(){
+		if ( confirm("确认退出？") ) {
+			plus.runtime.quit();
+		}
+	}, false );
+}, false );
+    </script>
+    <style>
+*{
+	-webkit-user-select:none;
+	-ms-touch-select:none;
+}
+html,body {
+	margin:0;
+	padding:0;
+	width:100%;
+	height:100%;
+	text-align:center;
+	-webkit-touch-callout:none;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	-webkit-text-size-adjust:none;
+}
+.title{
+	font-size:1.5em;text-align:center;color:#FFCC33;font-weight:bold;
+}
+.subtitle{
+	font-size:1.1em;text-align:left;color:#666;
+	margin:.3em 8%;
+}
+ul{
+	padding:0 0 0 1em;text-align:left;font-size:1em;color:#999;
+	margin:1em 8%;
+	list-style:none;
+}
+li{
+	list-style:none;
+	margin:.5em;
+}
+.waring{
+	display:inline;
+	color:#F00;
+}
+.waring:active{
+	color:#F0F;
+}
+@media only screen and (min-width: 640px) {
+.subtitle{
+	margin:.3em 15%;
+}
+ul{
+	margin:1em 15%;
+}
+}
+@media only screen and (min-width: 1024px) {
+.subtitle{
+	margin:.3em 25%;
+}
+ul{
+	margin:1em 25%;
+}
+}
+    </style>
+</head>
+<body onselectstart="return false;">
+	<div style="width:100%;height:10%;"></div>
+	<div class="title">HBuilderX真机运行</div>
+	<br/><br/>
+	<div class="subtitle">本应用无法独立运行，需与HBuilderX搭配使用。</div>
+	<ul>
+		<li>1. 在HBuilderX中选择可运行到手机的项目</li>
+		<li>2. 将手机连接到电脑，HBuilderX会自动检测手机</li>
+		<li>3. 点击HBuilderX的菜单运行-运行到手机，会将项目部署到手机上</li>
+	</ul>
+	<br/>
+	<div style="font-size:1.2em">如无法同步应用，请参考<div class="waring" onclick="plus.runtime.openURL('http://ask.dcloud.net.cn/article/97#synchronous')">故障排查指南</div></div>
+	
+	<br/><br/>
+</body>
+</html>

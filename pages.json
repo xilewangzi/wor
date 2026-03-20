@@ -1,0 +1,58 @@
+{
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			// npm 方式
+
+			// uni_modules 方式
+			"^u-(.*)": "@/uni_modules/uview-pro/components/u-$1/u-$1.vue"
+		}
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"navigationBarBackgroundColor": "#4A4A4A",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/friend/friend",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/index/utsiap/utsiap",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/guide/guide",
+			"style": {
+				"navigationBarTitleText": "视频引导"
+			}
+		},
+		{
+			"path": "pages/payment/subscription",
+			"style": {
+				"navigationBarTitleText": "订阅"
+			}
+		},
+		{
+			"path": "pages/payment/payment-result",
+			"style": {
+				"navigationBarTitleText": "支付结果"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#4A4A4A",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}

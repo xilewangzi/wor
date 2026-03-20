@@ -1,0 +1,1 @@
+{"version":3,"sources":["uni_modules/hello-test/utssdk/app-ios/index.uts"],"sourcesContent":["export const hello = ()=>{\n\treturn \"hello my uts test\"\n}"],"names":[],"mappings":";AAAO,WAAM,QAAQ;MAAA,MAAA;AACpB,OAAO;;2BADa,MAAA;;;;;;wCAAA,MAAA"}

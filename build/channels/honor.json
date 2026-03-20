@@ -1,0 +1,12 @@
+{
+  "platform": "android",
+  "channel": "honor",
+  "appId": "__UNI__DBE7390_HONOR",
+  "packageName": "com.wor.exhaust.honor",
+  "payment": {
+    "provider": "honor",
+    "appKey": "YOUR_HONOR_APP_KEY",
+    "appSecret": "YOUR_HONOR_APP_SECRET"
+  }
+}
+

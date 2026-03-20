@@ -1,0 +1,12 @@
+{
+  "platform": "android",
+  "channel": "xiaomi",
+  "appId": "__UNI__DBE7390_XIAOMI",
+  "packageName": "com.wor.exhaust.xiaomi",
+  "payment": {
+    "provider": "xiaomi",
+    "appKey": "YOUR_XIAOMI_APP_KEY",
+    "appSecret": "YOUR_XIAOMI_APP_SECRET"
+  }
+}
+

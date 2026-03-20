@@ -1,0 +1,79 @@
+
+body {
+	background-color: #000000;
+}
+.clearButtonstyle {
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0 !important;
+    line-height: 1;
+    font-weight: normal;
+    outline: none;
+}
+.clearButtonstyle::after {
+    border: none;
+}
+.card{
+	width: 21.5625rem;
+	min-height: 25rem;
+	background-color: #FFFFFF;
+	border-radius: 0.46875rem;
+	margin: 0.9375rem auto;
+	padding: 0.5rem;
+	box-sizing: border-box;
+}
+.main{
+	width: 100%;
+	height: 4.78125rem;
+	line-height: 4.78125rem;
+	margin-bottom: 0.625rem;
+	text-align: center;
+	font-size: 0.9375rem;
+	font-family: Microsoft YaHei;
+	font-weight: 400;
+	color: #FFFFFF;
+	/* background: #000000; */
+	/* background: url('https://shenglang1.zhongqi.pro/upload/images/1355-e2d4814e-618ce7ae760bf827837102.png'); */
+	background-repeat: no-repeat;
+	background-size: 100% 4.78125rem;
+	border-radius: 0.46875rem;
+}
+.left{
+	width: 10.71875rem;
+	height: 4.25rem;
+	line-height: 4.25rem;
+	text-align: center;
+	font-size: 1.5625rem;
+	font-family: Microsoft YaHei;
+	font-weight: 400;
+	background-color: #000000;
+	border-radius: 0.46875rem;
+	color: #FFFFFF;
+}
+.right{
+	width: 10.71875rem;
+	height: 4.25rem;
+	margin-left: 0.5rem;
+}
+.btn{
+	width: 100%;
+	height: 1.875rem;
+	line-height: 1.875rem;
+	text-align: center;
+	background: #000000;
+	border-radius: 0.25rem;
+	font-size: 0.9375rem;
+	font-family: Microsoft YaHei;
+	font-weight: 400;
+	color: #FFFFFF;
+}
+.content{
+	width: 19.0625rem;
+	min-height: 5.78125rem;
+	font-size: 1rem;
+	font-family: Microsoft YaHei;
+	font-weight: 400;
+	color: #000000;
+	margin: 1.25rem auto;
+}

@@ -1,0 +1,11 @@
+framework module unimoduleFrankSpeed {
+  umbrella header "unimoduleFrankSpeed.h"
+  export *
+
+  module * { export * }
+}
+
+module unimoduleFrankSpeed.Swift {
+  header "unimoduleFrankSpeed-Swift.h"
+  requires objc
+}

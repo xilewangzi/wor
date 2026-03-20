@@ -1,0 +1,12 @@
+{
+  "platform": "android",
+  "channel": "vivo",
+  "appId": "__UNI__DBE7390_VIVO",
+  "packageName": "com.wor.exhaust.vivo",
+  "payment": {
+    "provider": "vivo",
+    "appKey": "YOUR_VIVO_APP_KEY",
+    "appSecret": "YOUR_VIVO_APP_SECRET"
+  }
+}
+

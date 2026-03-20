@@ -1,0 +1,23 @@
+{
+  "version": "1",
+  "env": {
+    "compilerVersion": "4.85"
+  },
+  "files": {
+    "utssdk/app-ios/index.uts": {
+      "md5": "e30330372442bd3203c4b852ea99060e"
+    },
+    "utssdk/interface.uts": {
+      "md5": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "utssdk/unierror.uts": {
+      "md5": "b6db7d6baa8bf0a5674cc9ce27fc597d"
+    },
+    "package.json": {
+      "md5": "cc0786c189c3ae6c29f39706d5081098"
+    },
+    "utssdk/app-ios/config.json": {
+      "md5": "b346537f0a5ae3f8a9f59189d07f8ff0"
+    }
+  }
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+			class EnginPlayer {
+				constructor(startUrl,runUrl) {
+					// this.id = id
+					// list.forEach(item => {
+					// 	if (item.id == this.id) {
+					// 		this.startUrl = item.list[0];
+					// 		this.runUrl = item.list[1];
+					// 	}
+					// })		
+					this.startUrl = startUrl;
+					this.runUrl = runUrl;
+					try {
+						// 优先使用 Web Audio API
+						if (typeof window !== 'undefined' && (window.AudioContext || window.webkitAudioContext)) {
+							const AudioContext = window.AudioContext || window.webkitAudioContext;
+							this.autx = new AudioContext();
+						}
+						// 如果在 uni-app 环境中
+						else if (typeof uni !== 'undefined') {
+							this.autx = uni.createWebAudioContext && uni.createWebAudioContext();
+						}
+					} catch (e) {
+						console.error('Audio Context initialization failed:', e);
+					}
+					// this.autx = new AudioContext();
+					this.isStart = false;
+				}
+				async ready() {
+					const resStart = await fetch(this.startUrl);
+					this.startBufferArr = await resStart.arrayBuffer();
+			
+					const resRun = await fetch(this.runUrl);
+					this.runBufferArr = await resRun.arrayBuffer();
+					this.startSource = this.autx.createBufferSource();
+					this.startSource.buffer = await this.autx.decodeAudioData(this.startBufferArr);
+					this.runSource = this.autx.createBufferSource();
+					this.runSource.buffer = await this.autx.decodeAudioData(this.runBufferArr);
+					this.runSource.loop = true;
+					this.runSource.connect(this.autx.destination);
+					this.startSource.connect(this.autx.destination);
+					this.startSource.onended = () => {
+						this.runSource.start();
+						this.isStart = true;
+					};
+			
+				}
+				async startEngin() {
+					this.startSource.start();
+					setTimeout(()=>{
+						this.startSource.stop();
+					},3000)
+				}
+				setSpeed(speed) {
+					if (this.isStart)
+						this.runSource.playbackRate.linearRampToValueAtTime(speed / 40 + 1, this.autx.currentTime + 1);
+				}
+				destroy() {
+					this.autx.close();
+				}
+			}
+			let  engin = null;
+			window.startEngine =function(startUrl,runUrl){
+				engin = new EnginPlayer(startUrl,runUrl)
+				engin.ready().then(()=>{
+					engin.startEngin();
+				})
+			}
+			window.stopEngine =function(){
+				if(engin)
+					engin.destroy()
+			}
+			window.setSpeed = function(speed){
+				if(engin){
+					engin.setSpeed(speed)
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div>
+			sshusojo
+		</div>
+	</body>
+	<script src="uni.webview.1.5.4.js"></script>
+	<script>
+		uni.postMessage({})
+	</script>
+</html>
