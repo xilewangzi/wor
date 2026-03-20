@@ -6,18 +6,19 @@
       class="guide-video"
       :src="videoSrc"
       :controls="false"
-      :autoplay="true"
+      :autoplay="false"
       :muted="true"
       :show-center-play-btn="false"
       :enable-progress-gesture="false"
       object-fit="cover"
       @play="onPlay"
+      @pause="onPause"
       @timeupdate="onTimeUpdate"
       @ended="onEnded"
       @error="onVideoError"
     />
 
-    <view class="content-overlay" @click="handleScreenClick">
+    <view class="content-overlay">
       <view class="copies-list">
         <view 
           v-for="(line, idx) in visibleCopies" 
@@ -29,7 +30,7 @@
       </view>
 
       <view v-if="showButton" class="action-area">
-        <view class="primary-btn" @click.stop="onContinue">
+        <view class="primary-btn" @click="onContinue">
           {{ buttonText }}
         </view>
       </view>
@@ -52,12 +53,14 @@ const copyLines = [
   '真车实录，真响真还原。'
 ]
 
-// 配置展示节点（秒）
-const displayMilestones = [3, 6, 9, 12, 15] 
+// 每条文案对应的视频播放节点（秒）
+const displayMilestones = [3, 6, 9, 12, 15]
 
 const currentShownCount = ref(0)
 const hasFinished = ref(false)
 const currentTime = ref(0)
+const isPlaying = ref(false)
+const shouldPauseAtMilestone = ref(false)
 
 const visibleCopies = computed(() => {
   return copyLines.slice(0, currentShownCount.value)
@@ -71,59 +74,64 @@ const buttonText = computed(() => {
   return currentShownCount.value >= copyLines.length ? '开始体验' : '继续'
 })
 
-// 核心同步逻辑
-function syncContent(seconds) {
+// 检查是否需要在当前时间暂停
+function checkAndPauseAtMilestone(seconds) {
   currentTime.value = seconds
   
-  // 自动根据时间增加文案数量
-  let targetCount = 0
-  for (let i = 0; i < displayMilestones.length; i++) {
-    if (seconds >= displayMilestones[i]) {
-      targetCount = i + 1
-    } else {
-      break
+  // 检查是否到达了下一条文案的里程碑
+  const nextMilestoneIndex = currentShownCount.value
+  if (nextMilestoneIndex < displayMilestones.length) {
+    const nextMilestone = displayMilestones[nextMilestoneIndex]
+    
+    // 如果当前时间接近或超过下一个里程碑，暂停视频并显示文案
+    if (seconds >= nextMilestone && isPlaying.value) {
+      shouldPauseAtMilestone.value = true
+      videoContext.value?.pause()
+      // 确保视频停在精确位置
+      videoContext.value?.seek(nextMilestone)
     }
-  }
-
-  if (targetCount > currentShownCount.value) {
-    currentShownCount.value = targetCount
   }
 }
 
 function onPlay() {
+  isPlaying.value = true
+  shouldPauseAtMilestone.value = false
   console.log('Video started playing')
+}
+
+function onPause() {
+  isPlaying.value = false
+  console.log('Video paused')
 }
 
 function onTimeUpdate(e) {
   const t = e.detail.currentTime
-  syncContent(t)
+  checkAndPauseAtMilestone(t)
 }
 
 function onContinue() {
   if (currentShownCount.value >= copyLines.length) {
+    // 最后一条文案，点击后进入应用
     finishGuide()
   } else {
-    // 点击继续时，如果还没到下一条的时间，强制显示下一条
+    // 显示下一条文案
     currentShownCount.value++
+    shouldPauseAtMilestone.value = false
     
-    // 可选：跳转视频进度到对应的里程碑
-    const nextTime = displayMilestones[currentShownCount.value - 1]
-    if (videoContext.value && currentTime.value < nextTime) {
-      videoContext.value.seek(nextTime)
+    // 恢复视频播放
+    if (videoContext.value) {
+      videoContext.value.play()
     }
-  }
-}
-
-function handleScreenClick() {
-  // 全屏点击也可以触发继续逻辑，增强交互感
-  if (showButton.value) {
-    onContinue()
   }
 }
 
 function finishGuide() {
   if (hasFinished.value) return
   hasFinished.value = true
+  
+  if (videoContext.value) {
+    videoContext.value.pause()
+  }
   
   uni.setStorageSync('hasShownGuide', true)
   uni.reLaunch({
@@ -132,7 +140,8 @@ function finishGuide() {
 }
 
 function onEnded() {
-  // 视频结束自动进入
+  console.log('Video ended')
+  // 视频播放完成后自动进入
   finishGuide()
 }
 
@@ -145,9 +154,9 @@ function onVideoError(e) {
 onMounted(() => {
   videoContext.value = uni.createVideoContext('worGuideVideo')
   
-  // 某些平台 autoplay 可能失效，手动触发
+  // 延迟启动视频播放
   setTimeout(() => {
-    if (videoContext.value) {
+    if (videoContext.value && !hasFinished.value) {
       videoContext.value.play()
     }
   }, 500)
@@ -235,6 +244,7 @@ onUnmounted(() => {
   font-size: 32rpx;
   font-weight: bold;
   box-shadow: 0 8rpx 20rpx rgba(221, 43, 57, 0.4);
+  transition: all 0.2s ease;
 }
 
 .primary-btn:active {
