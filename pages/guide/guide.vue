@@ -22,7 +22,7 @@
     <cover-view class="content-overlay">
       <!-- 调试时间显示 -->
       <cover-view class="debug-time">
-        时间: {{ currentTime.toFixed(2) }}s | 文案索引: {{ currentShownIndex }}
+        时间: {{ currentTime.toFixed(2) }}s | 文案索引: {{ currentShownIndex }} | 平台: {{ platformName }}
       </cover-view>
 
       <!-- 文案显示区域（底部） -->
@@ -48,6 +48,7 @@ import { computed, ref, onMounted, onUnmounted } from 'vue'
 const videoSrc = '/static/wor.mp4'
 const videoRef = ref(null)
 const videoContext = ref(null)
+const platformName = ref('unknown')
 
 const copyLines = [
   '本年度值得升级的汽车软件+（海外媒体报道）',
@@ -57,8 +58,14 @@ const copyLines = [
   '真车实录，真响真还原。'
 ]
 
-// 每条文案对应的视频播放节点（秒）
-const displayMilestones = [13, 15, 17, 19, 21]
+// 平台差异化配置
+// iOS 和安卓的视频播放节奏不同，需要分别设置里程碑
+const milestonesConfig = {
+  ios: [13, 15, 17, 19, 21],      // iOS 模拟器的里程碑
+  android: [13.5, 15.5, 17.5, 19.5, 21.5] // 安卓模拟器的里程碑（通常比 iOS 慢 0.5s）
+}
+
+let displayMilestones = [13, 15, 17, 19, 21] // 默认值
 
 const currentShownIndex = ref(-1)
 const hasFinished = ref(false)
@@ -86,7 +93,7 @@ const buttonText = computed(() => {
   return currentShownIndex.value >= copyLines.length - 1 ? '开始体验' : '继续'
 })
 
-// 检查是否需要在当前时间暂停 - 极简版本，无 seek
+// 检查是否需要在当前时间暂停
 function checkAndPauseAtMilestone(seconds) {
   currentTime.value = seconds
   
@@ -184,6 +191,26 @@ function onVideoError(e) {
 
 onMounted(() => {
   console.log('组件已挂载')
+  
+  // 获取平台信息并设置对应的里程碑
+  const systemInfo = uni.getSystemInfoSync()
+  const platform = systemInfo.platform
+  
+  console.log(`当前平台: ${platform}`)
+  
+  if (platform === 'ios') {
+    displayMilestones = milestonesConfig.ios
+    platformName.value = 'iOS'
+    console.log('使用 iOS 里程碑配置:', displayMilestones)
+  } else if (platform === 'android') {
+    displayMilestones = milestonesConfig.android
+    platformName.value = 'Android'
+    console.log('使用 Android 里程碑配置:', displayMilestones)
+  } else {
+    platformName.value = platform
+    console.log('未知平台，使用默认里程碑配置')
+  }
+  
   videoContext.value = uni.createVideoContext('worGuideVideo')
   
   setTimeout(() => {
