@@ -60,14 +60,13 @@ const copyLines = [
 // 每条文案对应的视频播放节点（秒）
 const displayMilestones = [7, 10, 12, 14, 16]
 
-const currentShownIndex = ref(-1) // 当前显示的文案索引，-1 表示还没显示任何文案
+const currentShownIndex = ref(-1)
 const hasFinished = ref(false)
 const currentTime = ref(0)
 const isPlaying = ref(false)
 const isPausedAtMilestone = ref(false)
-const shouldPlayToEnd = ref(false) // 标记是否需要播放到结束
-const hideOverlay = ref(false) // 标记是否隐藏交互层
-let pollingTimer = null // 高性能轮询定时器
+const shouldPlayToEnd = ref(false)
+const hideOverlay = ref(false)
 
 const currentCopy = computed(() => {
   if (hideOverlay.value) {
@@ -87,68 +86,41 @@ const buttonText = computed(() => {
   return currentShownIndex.value >= copyLines.length - 1 ? '开始体验' : '继续'
 })
 
-// 检查是否需要在当前时间暂停
+// 检查是否需要在当前时间暂停 - 极简版本，无 seek
 function checkAndPauseAtMilestone(seconds) {
   currentTime.value = seconds
   
-  // 检查是否到达了下一条文案的里程碑
   const nextMilestoneIndex = currentShownIndex.value + 1
   if (nextMilestoneIndex < displayMilestones.length) {
     const nextMilestone = displayMilestones[nextMilestoneIndex]
     
-    // 使用容差值（±0.2s）来处理时间精度问题
-    const tolerance = 0.2
-    const timeDiff = seconds - nextMilestone
+    // 容差范围：±0.3s
+    const tolerance = 0.3
+    const timeDiff = Math.abs(seconds - nextMilestone)
     
-    // 如果当前时间刚好到达或超过里程碑（但未超过太多），显示文案并暂停视频
-    // 避免使用 seek 导致的画面跳动
-    if (timeDiff >= 0 && timeDiff <= tolerance && isPlaying.value && !isPausedAtMilestone.value && !shouldPlayToEnd.value) {
-      console.log(`到达里程碑 ${nextMilestone}s（当前时间: ${seconds.toFixed(2)}s），准备显示第 ${nextMilestoneIndex + 1} 条文案`)
+    // 到达里程碑时直接暂停，不做任何 seek 操作
+    if (timeDiff <= tolerance && isPlaying.value && !isPausedAtMilestone.value && !shouldPlayToEnd.value) {
+      console.log(`到达里程碑 ${nextMilestone}s（当前: ${seconds.toFixed(2)}s），显示文案 ${nextMilestoneIndex + 1}`)
       
-      // 【关键】先更新文案索引，确保 UI 先更新
       currentShownIndex.value = nextMilestoneIndex
       isPausedAtMilestone.value = true
       
-      // 直接暂停，不使用 seek 避免跳动
+      // 直接暂停，无延迟，无 seek
       if (videoContext.value) {
         videoContext.value.pause()
-        console.log(`视频已暂停在 ${seconds.toFixed(2)}s`)
       }
     }
   }
 }
 
-// 启动高性能轮询定时器
-function startPolling() {
-  if (pollingTimer) return
-  
-  pollingTimer = setInterval(() => {
-    if (!isPlaying.value || hasFinished.value || !videoContext.value) {
-      return
-    }
-    
-    // 定时器主要用于确保不会遗漏 timeupdate 事件
-    // 实际的时间检查在 onTimeUpdate 中进行
-  }, 100) // 100ms 轮询一次
-}
-
-function stopPolling() {
-  if (pollingTimer) {
-    clearInterval(pollingTimer)
-    pollingTimer = null
-  }
-}
-
 function onPlay() {
   isPlaying.value = true
-  console.log('Video started playing')
-  startPolling()
+  console.log('视频开始播放')
 }
 
 function onPause() {
   isPlaying.value = false
-  console.log('Video paused')
-  stopPolling()
+  console.log('视频已暂停')
 }
 
 function onTimeUpdate(e) {
@@ -157,49 +129,38 @@ function onTimeUpdate(e) {
 }
 
 function resumeVideoPlayback() {
-  console.log('尝试恢复视频播放...')
-  
   if (!videoContext.value) {
     console.error('videoContext 未初始化')
     return
   }
 
-  // 重置状态
   isPausedAtMilestone.value = false
   isPlaying.value = true
-  
-  // 直接调用 play
   videoContext.value.play()
-  console.log('已调用 play() 方法')
-  startPolling()
+  console.log('视频恢复播放')
 }
 
 function onContinue() {
-  console.log(`点击继续，当前显示文案索引: ${currentShownIndex.value}，当前时间: ${currentTime.value.toFixed(2)}s`)
+  console.log(`点击继续，文案索引: ${currentShownIndex.value}，时间: ${currentTime.value.toFixed(2)}s`)
   
   if (currentShownIndex.value >= copyLines.length - 1) {
-    // 最后一条文案，点击后标记需要播放到结束
-    console.log('点击开始体验，隐藏交互层，视频将播放到结束')
+    console.log('点击开始体验，隐藏交互层')
     shouldPlayToEnd.value = true
-    hideOverlay.value = true // 隐藏文案和按钮
+    hideOverlay.value = true
     
-    // 恢复视频播放，让其自然播放到结束
-    setTimeout(() => {
-      resumeVideoPlayback()
-    }, 100)
+    // 立即恢复播放
+    if (videoContext.value) {
+      videoContext.value.play()
+    }
   } else {
-    // 显示下一条文案，恢复视频播放
-    setTimeout(() => {
-      resumeVideoPlayback()
-    }, 100)
+    // 恢复播放到下一个里程碑
+    resumeVideoPlayback()
   }
 }
 
 function finishGuide() {
   if (hasFinished.value) return
   hasFinished.value = true
-  
-  stopPolling()
   
   if (videoContext.value) {
     videoContext.value.pause()
@@ -212,22 +173,19 @@ function finishGuide() {
 }
 
 function onEnded() {
-  console.log('Video ended')
-  // 视频播放完成后自动进入
+  console.log('视频播放完成')
   finishGuide()
 }
 
 function onVideoError(e) {
-  console.error('Video Error:', e)
-  // 如果视频加载失败，直接进入应用，避免卡死在引导页
+  console.error('视频加载错误:', e)
   setTimeout(finishGuide, 2000)
 }
 
 onMounted(() => {
-  console.log('组件已挂载，初始化 videoContext')
+  console.log('组件已挂载')
   videoContext.value = uni.createVideoContext('worGuideVideo')
   
-  // 延迟启动视频播放
   setTimeout(() => {
     if (videoContext.value && !hasFinished.value) {
       console.log('启动视频播放')
@@ -237,7 +195,6 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  stopPolling()
   if (videoContext.value) {
     videoContext.value.pause()
   }
@@ -283,7 +240,7 @@ onUnmounted(() => {
   z-index: 1000;
 }
 
-/* 文案容器 - 底部居中 */
+/* 文案容器 */
 .copy-container {
   position: absolute;
   bottom: 200rpx;
@@ -333,7 +290,7 @@ onUnmounted(() => {
   z-index: 100;
 }
 
-/* 继续按钮 - 参考截图样式 */
+/* 继续按钮 */
 .continue-btn {
   width: 100%;
   max-width: 600rpx;
