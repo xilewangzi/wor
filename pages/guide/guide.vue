@@ -18,23 +18,24 @@
       @error="onVideoError"
     />
 
-    <view class="content-overlay">
-      <view class="copies-list">
-        <view 
+    <!-- 使用 cover-view 覆盖在 video 之上 -->
+    <cover-view class="content-overlay">
+      <cover-view class="copies-list">
+        <cover-view 
           v-for="(line, idx) in visibleCopies" 
           :key="idx" 
           class="copy-item animate-fade-in"
         >
           {{ line }}
-        </view>
-      </view>
+        </cover-view>
+      </cover-view>
 
-      <view v-if="showButton" class="action-area">
-        <view class="primary-btn" @click="onContinue">
+      <cover-view v-if="showButton" class="action-area">
+        <cover-view class="primary-btn" @click="onContinue">
           {{ buttonText }}
-        </view>
-      </view>
-    </view>
+        </cover-view>
+      </cover-view>
+    </cover-view>
   </view>
 </template>
 
@@ -61,7 +62,6 @@ const hasFinished = ref(false)
 const currentTime = ref(0)
 const isPlaying = ref(false)
 const isPausedAtMilestone = ref(false)
-let checkPauseTimer = null
 
 const visibleCopies = computed(() => {
   return copyLines.slice(0, currentShownCount.value)
@@ -126,28 +126,13 @@ function resumeVideoPlayback() {
     return
   }
 
-  // 多次尝试确保播放指令被执行
-  let retryCount = 0
-  const maxRetries = 3
+  // 重置状态
+  isPausedAtMilestone.value = false
+  isPlaying.value = true
   
-  const attemptPlay = () => {
-    retryCount++
-    console.log(`第 ${retryCount} 次尝试播放视频`)
-    
-    // 先重置状态
-    isPausedAtMilestone.value = false
-    isPlaying.value = true
-    
-    // 尝试播放
-    videoContext.value.play()
-    
-    // 如果失败，继续重试
-    if (retryCount < maxRetries) {
-      setTimeout(attemptPlay, 150)
-    }
-  }
-  
-  attemptPlay()
+  // 直接调用 play
+  videoContext.value.play()
+  console.log('已调用 play() 方法')
 }
 
 function onContinue() {
@@ -159,11 +144,12 @@ function onContinue() {
   } else {
     // 显示下一条文案
     currentShownCount.value++
+    console.log(`更新文案数为: ${currentShownCount.value}`)
     
     // 恢复视频播放
     setTimeout(() => {
       resumeVideoPlayback()
-    }, 100)
+    }, 200)
   }
 }
 
@@ -173,10 +159,6 @@ function finishGuide() {
   
   if (videoContext.value) {
     videoContext.value.pause()
-  }
-  
-  if (checkPauseTimer) {
-    clearInterval(checkPauseTimer)
   }
   
   uni.setStorageSync('hasShownGuide', true)
@@ -198,6 +180,7 @@ function onVideoError(e) {
 }
 
 onMounted(() => {
+  console.log('组件已挂载，初始化 videoContext')
   videoContext.value = uni.createVideoContext('worGuideVideo')
   
   // 延迟启动视频播放
@@ -212,9 +195,6 @@ onMounted(() => {
 onUnmounted(() => {
   if (videoContext.value) {
     videoContext.value.pause()
-  }
-  if (checkPauseTimer) {
-    clearInterval(checkPauseTimer)
   }
 })
 </script>
@@ -239,10 +219,10 @@ onUnmounted(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 10;
   display: flex;
   flex-direction: column;
   background: transparent;
+  pointer-events: auto;
 }
 
 .copies-list {
@@ -261,9 +241,6 @@ onUnmounted(() => {
   font-size: 28rpx;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
-}
-
-.animate-fade-in {
   animation: fadeIn 0.5s ease-out forwards;
 }
 
@@ -275,6 +252,8 @@ onUnmounted(() => {
 .action-area {
   position: absolute;
   bottom: 120rpx;
+  left: 0;
+  right: 0;
   width: 100%;
   display: flex;
   justify-content: center;
