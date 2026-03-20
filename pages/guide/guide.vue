@@ -20,6 +20,11 @@
 
     <!-- 使用 cover-view 覆盖在 video 之上 -->
     <cover-view class="content-overlay">
+      <!-- 调试时间显示 -->
+      <cover-view class="debug-time">
+        时间: {{ currentTime.toFixed(2) }}s | 文案索引: {{ currentShownIndex }}
+      </cover-view>
+
       <!-- 文案显示区域（底部） -->
       <cover-view class="copy-container">
         <cover-view v-if="currentCopy" class="copy-text">
@@ -62,6 +67,7 @@ const isPlaying = ref(false)
 const isPausedAtMilestone = ref(false)
 const shouldPlayToEnd = ref(false) // 标记是否需要播放到结束
 const hideOverlay = ref(false) // 标记是否隐藏交互层
+let pollingTimer = null // 高性能轮询定时器
 
 const currentCopy = computed(() => {
   if (hideOverlay.value) {
@@ -90,9 +96,13 @@ function checkAndPauseAtMilestone(seconds) {
   if (nextMilestoneIndex < displayMilestones.length) {
     const nextMilestone = displayMilestones[nextMilestoneIndex]
     
-    // 如果当前时间接近或超过下一个里程碑，显示文案并暂停视频
-    if (seconds >= nextMilestone && isPlaying.value && !isPausedAtMilestone.value && !shouldPlayToEnd.value) {
-      console.log(`到达里程碑 ${nextMilestone}s，准备显示第 ${nextMilestoneIndex + 1} 条文案`)
+    // 使用容差值（±0.15s）来处理时间精度问题
+    const tolerance = 0.15
+    const timeDiff = Math.abs(seconds - nextMilestone)
+    
+    // 如果当前时间接近里程碑，显示文案并暂停视频
+    if (timeDiff <= tolerance && isPlaying.value && !isPausedAtMilestone.value && !shouldPlayToEnd.value) {
+      console.log(`到达里程碑 ${nextMilestone}s（当前时间: ${seconds.toFixed(2)}s），准备显示第 ${nextMilestoneIndex + 1} 条文案`)
       
       // 【关键】先更新文案索引，确保 UI 先更新
       currentShownIndex.value = nextMilestoneIndex
@@ -105,23 +115,50 @@ function checkAndPauseAtMilestone(seconds) {
           setTimeout(() => {
             if (videoContext.value) {
               videoContext.value.pause()
-              console.log('视频已暂停')
+              console.log(`视频已暂停在 ${nextMilestone}s`)
             }
-          }, 50)
+          }, 30)
         }
-      }, 50)
+      }, 30)
     }
+  }
+}
+
+// 启动高性能轮询定时器
+function startPolling() {
+  if (pollingTimer) return
+  
+  pollingTimer = setInterval(() => {
+    if (!isPlaying.value || hasFinished.value || !videoContext.value) {
+      return
+    }
+    
+    // 主动查询视频当前时间
+    videoContext.value.requestFullScreen({
+      direction: 0
+    })
+    // 通过 onTimeUpdate 事件或直接检查（如果支持）
+    // 这里我们依赖 onTimeUpdate，但定时器确保不会遗漏
+  }, 100) // 100ms 轮询一次
+}
+
+function stopPolling() {
+  if (pollingTimer) {
+    clearInterval(pollingTimer)
+    pollingTimer = null
   }
 }
 
 function onPlay() {
   isPlaying.value = true
   console.log('Video started playing')
+  startPolling()
 }
 
 function onPause() {
   isPlaying.value = false
   console.log('Video paused')
+  stopPolling()
 }
 
 function onTimeUpdate(e) {
@@ -144,10 +181,11 @@ function resumeVideoPlayback() {
   // 直接调用 play
   videoContext.value.play()
   console.log('已调用 play() 方法')
+  startPolling()
 }
 
 function onContinue() {
-  console.log(`点击继续，当前显示文案索引: ${currentShownIndex.value}`)
+  console.log(`点击继续，当前显示文案索引: ${currentShownIndex.value}，当前时间: ${currentTime.value.toFixed(2)}s`)
   
   if (currentShownIndex.value >= copyLines.length - 1) {
     // 最后一条文案，点击后标记需要播放到结束
@@ -170,6 +208,8 @@ function onContinue() {
 function finishGuide() {
   if (hasFinished.value) return
   hasFinished.value = true
+  
+  stopPolling()
   
   if (videoContext.value) {
     videoContext.value.pause()
@@ -207,6 +247,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  stopPolling()
   if (videoContext.value) {
     videoContext.value.pause()
   }
@@ -237,6 +278,19 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   background: transparent;
+}
+
+/* 调试时间显示 */
+.debug-time {
+  position: absolute;
+  top: 60rpx;
+  left: 20rpx;
+  color: #ffff00;
+  font-size: 24rpx;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 12rpx 18rpx;
+  border-radius: 8rpx;
+  z-index: 1000;
 }
 
 /* 文案容器 - 底部居中 */
