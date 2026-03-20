@@ -58,7 +58,7 @@ const copyLines = [
 ]
 
 // 每条文案对应的视频播放节点（秒）
-const displayMilestones = [14, 16, 18, 20, 22]
+const displayMilestones = [13, 15, 17, 19, 21]
 
 const currentShownIndex = ref(-1)
 const hasFinished = ref(false)
