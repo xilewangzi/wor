@@ -96,30 +96,24 @@ function checkAndPauseAtMilestone(seconds) {
   if (nextMilestoneIndex < displayMilestones.length) {
     const nextMilestone = displayMilestones[nextMilestoneIndex]
     
-    // 使用容差值（±0.15s）来处理时间精度问题
-    const tolerance = 0.15
-    const timeDiff = Math.abs(seconds - nextMilestone)
+    // 使用容差值（±0.2s）来处理时间精度问题
+    const tolerance = 0.2
+    const timeDiff = seconds - nextMilestone
     
-    // 如果当前时间接近里程碑，显示文案并暂停视频
-    if (timeDiff <= tolerance && isPlaying.value && !isPausedAtMilestone.value && !shouldPlayToEnd.value) {
+    // 如果当前时间刚好到达或超过里程碑（但未超过太多），显示文案并暂停视频
+    // 避免使用 seek 导致的画面跳动
+    if (timeDiff >= 0 && timeDiff <= tolerance && isPlaying.value && !isPausedAtMilestone.value && !shouldPlayToEnd.value) {
       console.log(`到达里程碑 ${nextMilestone}s（当前时间: ${seconds.toFixed(2)}s），准备显示第 ${nextMilestoneIndex + 1} 条文案`)
       
       // 【关键】先更新文案索引，确保 UI 先更新
       currentShownIndex.value = nextMilestoneIndex
       isPausedAtMilestone.value = true
       
-      // 然后再暂停视频
-      setTimeout(() => {
-        if (videoContext.value) {
-          videoContext.value.seek(nextMilestone)
-          setTimeout(() => {
-            if (videoContext.value) {
-              videoContext.value.pause()
-              console.log(`视频已暂停在 ${nextMilestone}s`)
-            }
-          }, 30)
-        }
-      }, 30)
+      // 直接暂停，不使用 seek 避免跳动
+      if (videoContext.value) {
+        videoContext.value.pause()
+        console.log(`视频已暂停在 ${seconds.toFixed(2)}s`)
+      }
     }
   }
 }
@@ -133,12 +127,8 @@ function startPolling() {
       return
     }
     
-    // 主动查询视频当前时间
-    videoContext.value.requestFullScreen({
-      direction: 0
-    })
-    // 通过 onTimeUpdate 事件或直接检查（如果支持）
-    // 这里我们依赖 onTimeUpdate，但定时器确保不会遗漏
+    // 定时器主要用于确保不会遗漏 timeupdate 事件
+    // 实际的时间检查在 onTimeUpdate 中进行
   }, 100) // 100ms 轮询一次
 }
 
