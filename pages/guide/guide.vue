@@ -20,16 +20,23 @@
 
     <!-- 使用 cover-view 覆盖在 video 之上 -->
     <cover-view class="content-overlay">
+      <!-- 调试信息 -->
+      <cover-view class="debug-info">
+        文案数: {{ currentShownCount }} | 时间: {{ currentTime.toFixed(1) }}s
+      </cover-view>
+
+      <!-- 文案列表 -->
       <cover-view class="copies-list">
         <cover-view 
           v-for="(line, idx) in visibleCopies" 
           :key="idx" 
-          class="copy-item animate-fade-in"
+          class="copy-item"
         >
           {{ line }}
         </cover-view>
       </cover-view>
 
+      <!-- 继续按钮 -->
       <cover-view v-if="showButton" class="action-area">
         <cover-view class="primary-btn" @click="onContinue">
           {{ buttonText }}
@@ -84,21 +91,26 @@ function checkAndPauseAtMilestone(seconds) {
   if (nextMilestoneIndex < displayMilestones.length) {
     const nextMilestone = displayMilestones[nextMilestoneIndex]
     
-    // 如果当前时间接近或超过下一个里程碑，暂停视频并显示文案
+    // 如果当前时间接近或超过下一个里程碑，显示文案并暂停视频
     if (seconds >= nextMilestone && isPlaying.value && !isPausedAtMilestone.value) {
-      console.log(`到达里程碑 ${nextMilestone}s，暂停视频`)
+      console.log(`到达里程碑 ${nextMilestone}s，准备显示第 ${nextMilestoneIndex + 1} 条文案`)
+      
+      // 【关键】先更新文案计数，确保 UI 先更新
+      currentShownCount.value = nextMilestoneIndex + 1
       isPausedAtMilestone.value = true
       
-      // 确保视频停在精确位置
-      if (videoContext.value) {
-        videoContext.value.seek(nextMilestone)
-        // 延迟暂停，确保 seek 完成
-        setTimeout(() => {
-          if (videoContext.value) {
-            videoContext.value.pause()
-          }
-        }, 100)
-      }
+      // 然后再暂停视频
+      setTimeout(() => {
+        if (videoContext.value) {
+          videoContext.value.seek(nextMilestone)
+          setTimeout(() => {
+            if (videoContext.value) {
+              videoContext.value.pause()
+              console.log('视频已暂停')
+            }
+          }, 50)
+        }
+      }, 50)
     }
   }
 }
@@ -142,14 +154,10 @@ function onContinue() {
     // 最后一条文案，点击后进入应用
     finishGuide()
   } else {
-    // 显示下一条文案
-    currentShownCount.value++
-    console.log(`更新文案数为: ${currentShownCount.value}`)
-    
     // 恢复视频播放
     setTimeout(() => {
       resumeVideoPlayback()
-    }, 200)
+    }, 100)
   }
 }
 
@@ -211,6 +219,7 @@ onUnmounted(() => {
 .guide-video {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .content-overlay {
@@ -222,7 +231,18 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   background: transparent;
-  pointer-events: auto;
+}
+
+.debug-info {
+  position: absolute;
+  top: 60rpx;
+  right: 20rpx;
+  color: #ffff00;
+  font-size: 20rpx;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10rpx 15rpx;
+  border-radius: 8rpx;
+  z-index: 1000;
 }
 
 .copies-list {
@@ -231,6 +251,7 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: flex-start;
   gap: 20rpx;
+  z-index: 100;
 }
 
 .copy-item {
@@ -259,6 +280,7 @@ onUnmounted(() => {
   justify-content: center;
   padding: 0 60rpx;
   box-sizing: border-box;
+  z-index: 100;
 }
 
 .primary-btn {
