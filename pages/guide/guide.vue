@@ -53,7 +53,7 @@ const copyLines = [
 ]
 
 // 每条文案对应的视频播放节点（秒）
-const displayMilestones = [8, 11, 14, 17, 18]
+const displayMilestones = [7, 10, 12, 14, 16]
 
 const currentShownIndex = ref(-1) // 当前显示的文案索引，-1 表示还没显示任何文案
 const hasFinished = ref(false)
@@ -61,8 +61,12 @@ const currentTime = ref(0)
 const isPlaying = ref(false)
 const isPausedAtMilestone = ref(false)
 const shouldPlayToEnd = ref(false) // 标记是否需要播放到结束
+const hideOverlay = ref(false) // 标记是否隐藏交互层
 
 const currentCopy = computed(() => {
+  if (hideOverlay.value) {
+    return ''
+  }
   if (currentShownIndex.value >= 0 && currentShownIndex.value < copyLines.length) {
     return copyLines[currentShownIndex.value]
   }
@@ -70,7 +74,7 @@ const currentCopy = computed(() => {
 })
 
 const showButton = computed(() => {
-  return currentShownIndex.value >= 0 && !hasFinished.value
+  return currentShownIndex.value >= 0 && !hasFinished.value && !hideOverlay.value
 })
 
 const buttonText = computed(() => {
@@ -147,8 +151,9 @@ function onContinue() {
   
   if (currentShownIndex.value >= copyLines.length - 1) {
     // 最后一条文案，点击后标记需要播放到结束
-    console.log('点击开始体验，视频将播放到结束')
+    console.log('点击开始体验，隐藏交互层，视频将播放到结束')
     shouldPlayToEnd.value = true
+    hideOverlay.value = true // 隐藏文案和按钮
     
     // 恢复视频播放，让其自然播放到结束
     setTimeout(() => {
@@ -250,12 +255,13 @@ onUnmounted(() => {
 }
 
 .copy-text {
-  color: #ffffff;
-  font-size: 32rpx;
-  font-weight: bold;
+  color: #000000;
+  font-size: 36rpx;
+  font-weight: 900;
   text-align: center;
-  line-height: 1.5;
+  line-height: 1.6;
   animation: fadeIn 0.5s ease-out forwards;
+  text-shadow: 0 2rpx 4rpx rgba(255, 255, 255, 0.3);
 }
 
 @keyframes fadeIn {
