@@ -60,7 +60,8 @@ const currentShownCount = ref(0)
 const hasFinished = ref(false)
 const currentTime = ref(0)
 const isPlaying = ref(false)
-const shouldPauseAtMilestone = ref(false)
+const isPausedAtMilestone = ref(false)
+let checkPauseTimer = null
 
 const visibleCopies = computed(() => {
   return copyLines.slice(0, currentShownCount.value)
@@ -84,18 +85,26 @@ function checkAndPauseAtMilestone(seconds) {
     const nextMilestone = displayMilestones[nextMilestoneIndex]
     
     // 如果当前时间接近或超过下一个里程碑，暂停视频并显示文案
-    if (seconds >= nextMilestone && isPlaying.value) {
-      shouldPauseAtMilestone.value = true
-      videoContext.value?.pause()
+    if (seconds >= nextMilestone && isPlaying.value && !isPausedAtMilestone.value) {
+      console.log(`到达里程碑 ${nextMilestone}s，暂停视频`)
+      isPausedAtMilestone.value = true
+      
       // 确保视频停在精确位置
-      videoContext.value?.seek(nextMilestone)
+      if (videoContext.value) {
+        videoContext.value.seek(nextMilestone)
+        // 延迟暂停，确保 seek 完成
+        setTimeout(() => {
+          if (videoContext.value) {
+            videoContext.value.pause()
+          }
+        }, 100)
+      }
     }
   }
 }
 
 function onPlay() {
   isPlaying.value = true
-  shouldPauseAtMilestone.value = false
   console.log('Video started playing')
 }
 
@@ -109,19 +118,52 @@ function onTimeUpdate(e) {
   checkAndPauseAtMilestone(t)
 }
 
+function resumeVideoPlayback() {
+  console.log('尝试恢复视频播放...')
+  
+  if (!videoContext.value) {
+    console.error('videoContext 未初始化')
+    return
+  }
+
+  // 多次尝试确保播放指令被执行
+  let retryCount = 0
+  const maxRetries = 3
+  
+  const attemptPlay = () => {
+    retryCount++
+    console.log(`第 ${retryCount} 次尝试播放视频`)
+    
+    // 先重置状态
+    isPausedAtMilestone.value = false
+    isPlaying.value = true
+    
+    // 尝试播放
+    videoContext.value.play()
+    
+    // 如果失败，继续重试
+    if (retryCount < maxRetries) {
+      setTimeout(attemptPlay, 150)
+    }
+  }
+  
+  attemptPlay()
+}
+
 function onContinue() {
+  console.log(`点击继续，当前显示文案数: ${currentShownCount.value}`)
+  
   if (currentShownCount.value >= copyLines.length) {
     // 最后一条文案，点击后进入应用
     finishGuide()
   } else {
     // 显示下一条文案
     currentShownCount.value++
-    shouldPauseAtMilestone.value = false
     
     // 恢复视频播放
-    if (videoContext.value) {
-      videoContext.value.play()
-    }
+    setTimeout(() => {
+      resumeVideoPlayback()
+    }, 100)
   }
 }
 
@@ -131,6 +173,10 @@ function finishGuide() {
   
   if (videoContext.value) {
     videoContext.value.pause()
+  }
+  
+  if (checkPauseTimer) {
+    clearInterval(checkPauseTimer)
   }
   
   uni.setStorageSync('hasShownGuide', true)
@@ -157,6 +203,7 @@ onMounted(() => {
   // 延迟启动视频播放
   setTimeout(() => {
     if (videoContext.value && !hasFinished.value) {
+      console.log('启动视频播放')
       videoContext.value.play()
     }
   }, 500)
@@ -165,6 +212,9 @@ onMounted(() => {
 onUnmounted(() => {
   if (videoContext.value) {
     videoContext.value.pause()
+  }
+  if (checkPauseTimer) {
+    clearInterval(checkPauseTimer)
   }
 })
 </script>
