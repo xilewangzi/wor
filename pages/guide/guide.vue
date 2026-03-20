@@ -20,25 +20,16 @@
 
     <!-- 使用 cover-view 覆盖在 video 之上 -->
     <cover-view class="content-overlay">
-      <!-- 调试信息 -->
-      <cover-view class="debug-info">
-        文案数: {{ currentShownCount }} | 时间: {{ currentTime.toFixed(1) }}s
-      </cover-view>
-
-      <!-- 文案列表 -->
-      <cover-view class="copies-list">
-        <cover-view 
-          v-for="(line, idx) in visibleCopies" 
-          :key="idx" 
-          class="copy-item"
-        >
-          {{ line }}
+      <!-- 文案显示区域（底部） -->
+      <cover-view class="copy-container">
+        <cover-view v-if="currentCopy" class="copy-text">
+          {{ currentCopy }}
         </cover-view>
       </cover-view>
 
       <!-- 继续按钮 -->
-      <cover-view v-if="showButton" class="action-area">
-        <cover-view class="primary-btn" @click="onContinue">
+      <cover-view v-if="showButton" class="button-container">
+        <cover-view class="continue-btn" @click="onContinue">
           {{ buttonText }}
         </cover-view>
       </cover-view>
@@ -62,24 +53,28 @@ const copyLines = [
 ]
 
 // 每条文案对应的视频播放节点（秒）
-const displayMilestones = [7, 10, 13, 15, 16]
+const displayMilestones = [8, 11, 14, 17, 18]
 
-const currentShownCount = ref(0)
+const currentShownIndex = ref(-1) // 当前显示的文案索引，-1 表示还没显示任何文案
 const hasFinished = ref(false)
 const currentTime = ref(0)
 const isPlaying = ref(false)
 const isPausedAtMilestone = ref(false)
+const shouldPlayToEnd = ref(false) // 标记是否需要播放到结束
 
-const visibleCopies = computed(() => {
-  return copyLines.slice(0, currentShownCount.value)
+const currentCopy = computed(() => {
+  if (currentShownIndex.value >= 0 && currentShownIndex.value < copyLines.length) {
+    return copyLines[currentShownIndex.value]
+  }
+  return ''
 })
 
 const showButton = computed(() => {
-  return currentShownCount.value > 0 && !hasFinished.value
+  return currentShownIndex.value >= 0 && !hasFinished.value
 })
 
 const buttonText = computed(() => {
-  return currentShownCount.value >= copyLines.length ? '开始体验' : '继续'
+  return currentShownIndex.value >= copyLines.length - 1 ? '开始体验' : '继续'
 })
 
 // 检查是否需要在当前时间暂停
@@ -87,16 +82,16 @@ function checkAndPauseAtMilestone(seconds) {
   currentTime.value = seconds
   
   // 检查是否到达了下一条文案的里程碑
-  const nextMilestoneIndex = currentShownCount.value
+  const nextMilestoneIndex = currentShownIndex.value + 1
   if (nextMilestoneIndex < displayMilestones.length) {
     const nextMilestone = displayMilestones[nextMilestoneIndex]
     
     // 如果当前时间接近或超过下一个里程碑，显示文案并暂停视频
-    if (seconds >= nextMilestone && isPlaying.value && !isPausedAtMilestone.value) {
+    if (seconds >= nextMilestone && isPlaying.value && !isPausedAtMilestone.value && !shouldPlayToEnd.value) {
       console.log(`到达里程碑 ${nextMilestone}s，准备显示第 ${nextMilestoneIndex + 1} 条文案`)
       
-      // 【关键】先更新文案计数，确保 UI 先更新
-      currentShownCount.value = nextMilestoneIndex + 1
+      // 【关键】先更新文案索引，确保 UI 先更新
+      currentShownIndex.value = nextMilestoneIndex
       isPausedAtMilestone.value = true
       
       // 然后再暂停视频
@@ -148,13 +143,19 @@ function resumeVideoPlayback() {
 }
 
 function onContinue() {
-  console.log(`点击继续，当前显示文案数: ${currentShownCount.value}`)
+  console.log(`点击继续，当前显示文案索引: ${currentShownIndex.value}`)
   
-  if (currentShownCount.value >= copyLines.length) {
-    // 最后一条文案，点击后进入应用
-    finishGuide()
+  if (currentShownIndex.value >= copyLines.length - 1) {
+    // 最后一条文案，点击后标记需要播放到结束
+    console.log('点击开始体验，视频将播放到结束')
+    shouldPlayToEnd.value = true
+    
+    // 恢复视频播放，让其自然播放到结束
+    setTimeout(() => {
+      resumeVideoPlayback()
+    }, 100)
   } else {
-    // 恢复视频播放
+    // 显示下一条文案，恢复视频播放
     setTimeout(() => {
       resumeVideoPlayback()
     }, 100)
@@ -233,46 +234,45 @@ onUnmounted(() => {
   background: transparent;
 }
 
-.debug-info {
+/* 文案容器 - 底部居中 */
+.copy-container {
   position: absolute;
-  top: 60rpx;
-  right: 20rpx;
-  color: #ffff00;
-  font-size: 20rpx;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 10rpx 15rpx;
-  border-radius: 8rpx;
-  z-index: 1000;
-}
-
-.copies-list {
-  padding: 120rpx 40rpx 0;
+  bottom: 200rpx;
+  left: 0;
+  right: 0;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20rpx;
+  justify-content: center;
+  align-items: center;
+  padding: 0 40rpx;
+  box-sizing: border-box;
   z-index: 100;
 }
 
-.copy-item {
+.copy-text {
   color: #ffffff;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 16rpx 24rpx;
-  border-radius: 12rpx;
-  font-size: 28rpx;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
+  font-size: 32rpx;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.5;
   animation: fadeIn 0.5s ease-out forwards;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10rpx); }
-  to { opacity: 1; transform: translateY(0); }
+  from { 
+    opacity: 0; 
+    transform: translateY(20rpx); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 }
 
-.action-area {
+/* 按钮容器 */
+.button-container {
   position: absolute;
-  bottom: 120rpx;
+  bottom: 80rpx;
   left: 0;
   right: 0;
   width: 100%;
@@ -283,23 +283,24 @@ onUnmounted(() => {
   z-index: 100;
 }
 
-.primary-btn {
+/* 继续按钮 - 参考截图样式 */
+.continue-btn {
   width: 100%;
-  max-width: 500rpx;
-  height: 88rpx;
-  line-height: 88rpx;
+  max-width: 600rpx;
+  height: 100rpx;
+  line-height: 100rpx;
   text-align: center;
-  background: #dd2b39;
+  background: #ff0000;
   color: #ffffff;
-  border-radius: 44rpx;
-  font-size: 32rpx;
+  border-radius: 50rpx;
+  font-size: 36rpx;
   font-weight: bold;
-  box-shadow: 0 8rpx 20rpx rgba(221, 43, 57, 0.4);
-  transition: all 0.2s ease;
+  box-shadow: 0 10rpx 30rpx rgba(255, 0, 0, 0.3);
+  transition: all 0.3s ease;
 }
 
-.primary-btn:active {
-  opacity: 0.8;
+.continue-btn:active {
+  opacity: 0.85;
   transform: scale(0.98);
 }
 </style>
